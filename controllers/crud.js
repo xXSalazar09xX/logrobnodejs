@@ -17,3 +17,37 @@ if (!nombre || !fechaContratacion || !salario || !horasTrabajadas || !departamen
     res.redirect('/create')
     })
 }
+exports.tarea = (req, res) => {
+    const { id_empleado, horas } = req.body;
+
+
+    conexion.query('SELECT horasTrabajadas FROM empleados WHERE id = ?'
+    , [id_empleado], (err, resultadosEmpleado) => {
+        if (err) {
+            console.log(err);
+        }
+
+        const horasTrabajadas = resultadosEmpleado[0].horasTrabajadas;
+
+        if (horasTrabajadas < horas) {
+          const m='horas de tarea mayores a las horas trabajadas.';
+            return res.render('tareasm',{m});
+        } else {
+            const nuevaTarea = {
+                nombre: req.body.nombre,
+                horas: req.body.horas,
+                id_empleado: req.body.id_empleado
+            };
+
+            conexion.query('INSERT INTO tareas SET ?'
+            , nuevaTarea, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+
+                return res.redirect('/');
+            });
+        }
+    });
+};
+

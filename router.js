@@ -29,5 +29,14 @@ router.get('/create', (req, res) => {
 const crud=require('./controllers/crud')
 
 router.post('/store',crud.store)
+router.get('/tareas',(req,res)=>{
+    conexion.query('SELECT * FROM empleados',(err,resultados)=>{
+        if(err)
+        throw err
+    else
+    res.render('tarea',{resultados:resultados})
+    })
+})
+router.post('/tareasguardado',crud.tarea)
 
 module.exports=router

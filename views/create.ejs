@@ -38,79 +38,58 @@
     </form>
 </div>
 
-
-<table class="table table-striped projects col-md-10 offset-md-1 mt-4 "  >
-  <thead >
-      <tr>
-          <th style="width: 1%">
-              #
-          </th>
-          <th style="width: 20%">
-
-Nombre         </th>
-          <th style="width: 20%">
-              Fecha de contratacion
-          </th>
-          <th style="width: 20%">
-              salario
-          </th>
-          <th style="width: 20%">
-             horas trabajadas
-          </th>
-          <th style="width: 20%">
-              departamento
-          </th>
-
-      </tr>
-  </thead>
-  <tbody>
-    <% resul.forEach((e)=>{%>
-      <tr>
-          <td>
-            <%=e.id%>
-          </td>
-          <td>
-            <%=e.nombre%>
-
-          </td>
-          <td>
-            <% const fechaContratacion = new Date(e.fechaContratacion); %>
-            <%= fechaContratacion.toLocaleDateString('es-ES', {day: 'numeric',month: 'numeric', year: 'numeric',   }) %>
-            
-
-           </td>
-           <td>
-            <%=e.salario%>
-
-           </td>
-           <td>
-            <%=e.horasTrabajadas%>
-
-           </td>
-           <td>
-            <%=e.departamento%>
-
-           </td>
-
-
-      </tr>
-
-
-<%})%>
-  </tbody>
-</table>
-    
-<div class="row mb-3">
-    <div class="col-md-10 offset-md-1">
-        <form  action="">
-            <div class="input-group">
-                <input name="buscar" type="text" class="form-control form-control-lg" placeholder="Ingrese departamento">
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Tabla empleado</h3>
+          <div class="card-tools">
+            <form action="" class="form-inline">
+              <div class="input-group input-group-sm">
+                <input type="text" name="buscar" class="form-control" placeholder="Buscar">
                 <div class="input-group-append">
-                    <button type="submit" class="btn btn-lg btn-default">
-                        <i class="fa fa-search"></i>
-                    </button>
+                  <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                  </button>
                 </div>
-            </div>
-        </form>
+              </div>
+            </form>
+          </div>
+        </div>
+  
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-head-fixed text-nowrap">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Fecha de contratacion</th>
+                <th>Salario</th>
+                <th>Horas trabajadas</th>
+                <th>Departamento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% resul.forEach((empleados) => { %>
+                <tr>
+                  <td><%= empleados.id %></td>
+                  <td><%= empleados.nombre %></td>
+                  <td>
+                    <% const fechaContratacion = new Date(empleados.fechaContratacion); %>
+                    <%= fechaContratacion.toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric', year: 'numeric' }) %>
+                  </td>
+                  <td><%= empleados.salario %></td>
+                  <td><%= empleados.horasTrabajadas %></td>
+                  <td><%= empleados.departamento %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
     </div>
   </div>
+  
