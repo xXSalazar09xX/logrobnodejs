@@ -38,5 +38,31 @@ router.get('/tareas',(req,res)=>{
     })
 })
 router.post('/tareasguardado',crud.tarea)
-
+router.get('/total', (req, res) => {
+    conexion.query( `
+    SELECT fechaContratacion, SUM(salario) as totalSalarios
+    FROM empleados
+    WHERE pagado = 1
+    GROUP BY fechaContratacion
+    ORDER BY fechaContratacion
+  `, (err, empleadosPorFecha) => {
+      if (err) {
+        console.error('Error al consultar salarios por fecha: ' + err.stack);
+      }
+      conexion.query( `
+      SELECT SUM(salario) as totalSalariosGeneral
+      FROM empleados
+      WHERE pagado = 1
+    `, (err, resultadoTotalSalarios) => {
+        if (err) {
+          console.error('Error al consultar total general de salarios: ' + err.stack);
+        }
+  
+        const totalSalariosGeneral = resultadoTotalSalarios[0].totalSalariosGeneral;
+  
+        res.render('pagado', { empleadosPorFecha, totalSalariosGeneral });
+      });
+    });
+  });
+  
 module.exports=router
